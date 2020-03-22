@@ -21,12 +21,12 @@ public class HexBoard : MonoBehaviour
         
     }
 
-    protected void AddBigHex(GameObject hex, int radius, int qCenter, int rCenter, bool isScenery) {
+    public void AddBigHex(GameObject hex, int radius, int qCenter, int rCenter, bool isScenery) {
 
         for (int q = -radius; q <= radius; q ++) {
             for (int r = -radius; r <= radius; r++) {
                 if (HexDistance(q, r, qCenter, rCenter) <= radius) {
-                    SetHex(q, r, hex, isScenery);
+                    SetHex(q, r, Instantiate(hex), isScenery);
                 }
             }
         }
@@ -177,7 +177,7 @@ public class HexBoard : MonoBehaviour
         return sceneryDiagonals[q][r];
     }
 
-    protected void SetHex(int q, int r, GameObject hex, bool isScenery) {
+    public void SetHex(int q, int r, GameObject hex, bool isScenery) {
         
         hex.transform.Translate(new Vector3(GetX(q, r), GetY(r), 0f));
 
@@ -199,11 +199,11 @@ public class HexBoard : MonoBehaviour
         }
     }
 
-    protected void SetOccupant(int q, int r, GameObject hex) {
+    public void SetOccupant(int q, int r, GameObject hex) {
         SetHex(q, r, hex, false);
     }
 
-    protected void SetScenery(int q, int r, GameObject hex) {
+    public void SetScenery(int q, int r, GameObject hex) {
         SetHex(q, r, hex, true);
     }
 
