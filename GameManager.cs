@@ -48,7 +48,7 @@ public class GameManager : MonoBehaviour
         GameObject player = GameObject.Find("Base Player");
         players = new Player[numPlayers];
         for (int i = 0; i < numPlayers; i ++) {
-            GameObject playerObj = Object.Instantiate(player);
+            GameObject playerObj = Object.Instantiate(player, board.transform.position, Quaternion.Euler(0, 0, 0), board.transform);
             Player newPLayer = playerObj.AddComponent<Player>();
             AddPlayer(newPLayer, boardRadius - 2 * i * boardRadius, 0);
         }

@@ -4,7 +4,15 @@ using UnityEngine;
 
 public class HexPiece : MonoBehaviour
 {
-    Vector2 pos = Vector2.zero;
+    int q;
+    int r;
+
+    public enum PieceType
+    {
+        Scenery,
+        Occupant
+    }
+    PieceType type;
 
     // Start is called before the first frame update
     void Start()
@@ -18,23 +26,23 @@ public class HexPiece : MonoBehaviour
         
     }
 
-    public void Move(int q, int r)
-    {
-        MoveTo((int) pos.x + q, (int) pos.y + r);
+    public void Set(int q, int r, PieceType type) {
+        SetPosition(q, r);
+        this.type = type;
     }
 
-    public void Move(Vector2 v)
-    {
-        Move((int) v.x, (int) v.y);
+    public void SetPosition(int q, int r) {
+        this.q = q;
+        this.r = r;
+        transform.Translate(HexBoard.GetXYZ(q, r) - transform.localPosition, Space.Self);
     }
 
-    public void MoveTo(int q, int r)
+    public void Move(int dq, int dr)
     {
-        pos.Set(q, r);
+        q += dq;
+        r += dr;
+        //Todo: This should initiate or queue move animation rather than Translate.
+        transform.Translate(HexBoard.GetXYZ(dq, dr), Space.Self);
     }
 
-    public void MoveTo(Vector2 p)
-    {
-        MoveTo((int)p.x, (int)p.y);
-    }
 }

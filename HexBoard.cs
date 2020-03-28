@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class HexBoard : MonoBehaviour
 {
-    Dictionary<int, Dictionary<int, GameObject>> sceneryDiagonals = new Dictionary<int, Dictionary<int, GameObject>>();
-    Dictionary<int, Dictionary<int, GameObject>> occupantDiagonals = new Dictionary<int, Dictionary<int, GameObject>>();
+    Dictionary<int, Dictionary<int, HexPiece>> sceneryDiagonals = new Dictionary<int, Dictionary<int, HexPiece>>();
+    Dictionary<int, Dictionary<int, HexPiece>> occupantDiagonals = new Dictionary<int, Dictionary<int, HexPiece>>();
     
     float gridScale = 1f;
-    float rootThree = Mathf.Sqrt(3);
+    static float rootThree = Mathf.Sqrt(3);
 
     // Start is called before the first frame update
     void Start()
@@ -32,27 +32,51 @@ public class HexBoard : MonoBehaviour
         }
     }
 
-    public float GetX(int q, int r) {
-        return gridScale * (2 * q + r);
+    public static float GetX(int q, int r) {
+        return 2 * q + r;
     }
 
-    public float GetY(int r) {
-        return gridScale * rootThree * r * (-1f);
+    public float GetScaledX(int q, int r) {
+        return gridScale * GetX(q, r);
     }
 
-    public Vector2 GetXY(int q, int r) {
+    public static float GetY(int r) {
+        return rootThree * r * (-1f);
+    }
+
+    public float GetScaledY(int r) {
+        return gridScale * GetY(r);
+    }
+
+    public static Vector2 GetXY(int q, int r) {
         return new Vector2(GetX(q, r), GetY(r));
     }
 
-    public Vector2 GetXY(Vector2 hexCoord) {
+    public static Vector2 GetXY(Vector2 hexCoord) {
         return GetXY((int) hexCoord.x, (int) hexCoord.y);
     }
 
-    public Vector3 GetXYZ(int q, int r) {
+    public Vector2 GetScaledXY (int q, int r) {
+        return new Vector2(GetScaledX(q, r), GetScaledY(r));
+    }
+
+    public Vector2 GetScaledXY (Vector2 hexCoord) {
+        return GetScaledXY((int) hexCoord.x, (int) hexCoord.y);
+    }
+
+    public static Vector3 GetXYZ(int q, int r) {
         return new Vector3(GetX(q, r), GetY(r), 0f);
     }
 
-    public Vector3 GetXYZ (Vector2 hexCoord) {
+    public static Vector3 GetXYZ (Vector2 hexCoord) {
+        return GetXYZ((int) hexCoord.x, (int) hexCoord.y);
+    }
+
+    public Vector3 GetScaledXYZ (int q, int r) {
+        return new Vector3 (GetX(q, r), GetY(r), 0f);
+    }
+
+    public Vector3 GetScaledXYZ (Vector2 hexCoord) {
         return GetXYZ((int) hexCoord.x, (int) hexCoord.y);
     }
 
@@ -169,26 +193,29 @@ public class HexBoard : MonoBehaviour
         return CheckScenery((int) hexCoord.x, (int) hexCoord.y);
     }
 
-    public GameObject GetOccupant(int q, int r) {
+    public HexPiece GetOccupant(int q, int r) {
         return occupantDiagonals[q][r];
     }
 
-    public GameObject GetScenery(int q, int r) {
+    public HexPiece GetScenery(int q, int r) {
         return sceneryDiagonals[q][r];
     }
 
-    public void SetHex(int q, int r, GameObject hex, bool isScenery) {
+    public void SetHex(int q, int r, GameObject hexObj, bool isScenery) {
         
-        hex.transform.Translate(new Vector3(GetX(q, r), GetY(r), 0f));
+        hexObj.transform.Translate(new Vector3(GetX(q, r), GetY(r), 0f));
+        HexPiece hex = hexObj.AddComponent<HexPiece>();
 
-        Dictionary<int, Dictionary<int, GameObject>> diagonals = isScenery ? sceneryDiagonals : occupantDiagonals;
-        Dictionary<int, GameObject> diagonal;
+        hex.Set(q, r, isScenery ? HexPiece.PieceType.Scenery : HexPiece.PieceType.Occupant);
+
+        Dictionary<int, Dictionary<int, HexPiece>> diagonals = isScenery ? sceneryDiagonals : occupantDiagonals;
+        Dictionary<int, HexPiece> diagonal;
 
         if (diagonals.ContainsKey(q)) {
             diagonal = diagonals[q];
         }
         else {
-            diagonal = new Dictionary<int, GameObject>();
+            diagonal = new Dictionary<int, HexPiece>();
             diagonals.Add(q, diagonal);
         }
         if (diagonal.ContainsKey(r)) {
