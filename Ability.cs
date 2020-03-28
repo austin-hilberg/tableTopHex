@@ -2,21 +2,38 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Ability : MonoBehaviour
+public class Ability
 {
 
+    public enum Target
+    {
+        Self,
+        SelfShape,
+        Unit,
+        UnitShape,
+        Location,
+        LocationShape
+    }
+    Target target;
+    public enum Effect
+    {
+        Path,
+        Jump,
+        Heal,
+        Harm
+    }
+    Effect effect;
     int range;
     int speed;
+    int cooldown;
+    bool friendly;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+    public Ability (Target tg, Effect ef, int r, int s, int cd, bool friend) {
+       target = tg;
+       effect = ef;
+       range = r;
+       speed = s;
+       cooldown = cd;
+       friendly = friend;
     }
 }
