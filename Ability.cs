@@ -4,40 +4,37 @@ using UnityEngine;
 
 public class Ability
 {
-
-    public enum Target
-    {
-        Self,
-        SelfShape,
-        Unit,
-        UnitShape,
-        Location,
-        LocationShape
-    }
-    Target target;
-    public enum Effect
-    {
-        Path,
-        Jump,
-        Heal,
-        Harm
-    }
-    Effect effect;
+    public GameManager.TargetType targetType;
+    HexPiece target;
+    GameManager.EffectType effectType;
     int value;
-    int range;
+    public int range;
     int speed;
     int cooldown;
-    bool friendly;
+    public bool friendly;
     string name;
 
-    public Ability (Target target, Effect effect, int value, int range, int speed, int cooldown, bool friendly, string name) {
-       this.target = target;
-       this.effect = effect;
+    public Ability (
+        GameManager.TargetType targetType,
+        GameManager.EffectType effectType,
+        int value,
+        int range,
+        int speed,
+        int cooldown,
+        bool friendly,
+        string name
+        ) {
+       this.targetType = targetType;
+       this.effectType = effectType;
        this.value = value;
        this.range = range;
        this.speed = speed;
        this.cooldown = cooldown;
        this.friendly = friendly;
        this.name = name;
+    }
+
+    public void SetTarget(HexPiece target) {
+        this.target = target;
     }
 }

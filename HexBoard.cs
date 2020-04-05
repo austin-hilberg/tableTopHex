@@ -186,7 +186,7 @@ public class HexBoard : MonoBehaviour
     }
 
     public bool CheckScenery(int q, int r) {
-        return sceneryDiagonals[q][r];
+        return sceneryDiagonals.ContainsKey(q) && sceneryDiagonals[q].ContainsKey(r);
     }
 
     public bool CheckScenery(Vector2 hexCoord) {

@@ -10,6 +10,7 @@ public class Character : MonoBehaviour
     public int q = 0;
     public int r = 0;
     string charName;
+    public Player player;
 
     // Start is called before the first frame update
     void Start()
@@ -23,7 +24,8 @@ public class Character : MonoBehaviour
         
     }
 
-    public void Initialize(int q, int r, int hp, List<Ability> abils, string name) {
+    public void Initialize(Player player, int q, int r, int hp, List<Ability> abils, string name) {
+        this.player = player;
         this.q = q;
         this.r = r;
         health = hp;
