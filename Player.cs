@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    public int q = 0;
-    public int r = 0;
+    List<Character> characters = new List<Character>();
+    string playerName;
 
 
     // Start is called before the first frame update
@@ -20,8 +20,11 @@ public class Player : MonoBehaviour
 
     }
 
-    public void Initialize(int q, int r) {
-        this.q = q;
-        this.r = r;
+    public void Initialize(string name) {
+        playerName = name;
+    }
+
+    public void AddCharacter(Character character) {
+        characters.Add(character);
     }
 }

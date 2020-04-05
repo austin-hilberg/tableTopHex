@@ -5,7 +5,11 @@ using UnityEngine;
 public class Character : MonoBehaviour
 {
     int health;
-    Ability[] abilities;
+    List<Ability> abilities;
+
+    public int q = 0;
+    public int r = 0;
+    string charName;
 
     // Start is called before the first frame update
     void Start()
@@ -17,5 +21,13 @@ public class Character : MonoBehaviour
     void Update()
     {
         
+    }
+
+    public void Initialize(int q, int r, int hp, List<Ability> abils, string name) {
+        this.q = q;
+        this.r = r;
+        health = hp;
+        abilities = abils;
+        charName = name;
     }
 }

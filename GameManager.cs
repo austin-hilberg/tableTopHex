@@ -40,25 +40,35 @@ public class GameManager : MonoBehaviour
         int numPlayers = 2;
         int boardRadius = 2;
 
+        int hp = 10;
+        List<Ability> abilities = new List<Ability>();
+        abilities.Add(new Ability(Ability.Target.Location, Ability.Effect.Path, 0, 3, 3, 2, true, "Move"));
+        abilities.Add(new Ability(Ability.Target.Unit, Ability.Effect.Harm, 4, 3, 6, 2, false, "Attack"));
+        
         GameObject hex = GameObject.Find("Base Hex");
-        board = gameObject.AddComponent<HexBoard>();
+        board = new GameObject().AddComponent<HexBoard>();
         board.AddBigHex(hex, boardRadius, 0, 0, true);
         hex.SetActive(false);
 
-        GameObject player = GameObject.Find("Base Player");
-        players = new Player[numPlayers];
+        GameObject charObj = GameObject.Find("Base Character");
+        players = new Player[numPlayers];       
         for (int i = 0; i < numPlayers; i ++) {
-            GameObject playerObj = Object.Instantiate(player, board.transform.position, Quaternion.Euler(0, 0, 0), board.transform);
+            GameObject playerObj = new GameObject();
             Player newPLayer = playerObj.AddComponent<Player>();
-            AddPlayer(newPLayer, boardRadius - 2 * i * boardRadius, 0);
+            newPLayer.Initialize("Player " + i);
+            Character newCharacter = Object.Instantiate(charObj).AddComponent<Character>();
+            int charq = boardRadius - 2 * i * boardRadius;
+            int charr = 0;
+            newCharacter.Initialize(charq, charr, hp, abilities, "Char " + i);
+            newPLayer.AddCharacter(newCharacter);
+            AddCharacter(newCharacter, charq, charr);
         }
-        player.SetActive(false);
+        charObj.SetActive(false);
 
     }
 
-    void AddPlayer(Player player, int q, int r) {
-        board.SetOccupant(q, r, player.gameObject);
-        player.Initialize(q, r);
-        players[players.Length - 1] = player;
+    void AddCharacter(Character character, int q, int r) {
+        board.SetOccupant(q, r, character.gameObject);
+        
     }
 }

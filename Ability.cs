@@ -23,17 +23,21 @@ public class Ability
         Harm
     }
     Effect effect;
+    int value;
     int range;
     int speed;
     int cooldown;
     bool friendly;
+    string name;
 
-    public Ability (Target tg, Effect ef, int r, int s, int cd, bool friend) {
-       target = tg;
-       effect = ef;
-       range = r;
-       speed = s;
-       cooldown = cd;
-       friendly = friend;
+    public Ability (Target target, Effect effect, int value, int range, int speed, int cooldown, bool friendly, string name) {
+       this.target = target;
+       this.effect = effect;
+       this.value = value;
+       this.range = range;
+       this.speed = speed;
+       this.cooldown = cooldown;
+       this.friendly = friendly;
+       this.name = name;
     }
 }
